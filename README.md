@@ -42,11 +42,11 @@ flutter pub get
 flutter run -d chrome --web-port 8088
 ```
 
-The compiled default API address is `https://ubaya.fun/flutter/160423172`.
+The compiled default API address is `https://ubaya.cloud/flutter/160423172`.
 To use the authorized fallback after deploying the same backend and schema there, run
 
 ```powershell
-flutter run -d chrome --web-port 8088 --dart-define=API_BASE_URL=https://ubaya.fun/flutter/160423155
+flutter run -d chrome --web-port 8088 --dart-define=API_BASE_URL=https://ubaya.cloud/flutter/160423155
 ```
 
 Each server owns its own accounts, balances and orders. Select a server when launching or building the app. Keep requests for a transaction on that selected server.
@@ -60,12 +60,12 @@ For Android, install Android SDK command-line tools, Android platform 36, build 
 
 ## Deploy the backend
 
-The backend is deployed in `/var/www/html/flutter/160423172` on `103.16.116.155`, served at `https://ubaya.fun/flutter/160423172`. Live API acceptance checks passed on November 17, 2026 through an explicit origin-IP connection with TLS certificate verification enabled. Test accounts, transactions and uploaded fixtures were removed afterward. The upload directory grants the PHP service access through a filesystem ACL.
+The backend is deployed in `/var/www/html/flutter/160423172` on `103.16.116.155`, served at `https://ubaya.cloud/flutter/160423172`. Live API acceptance checks passed on November 17, 2026 through an explicit origin-IP connection with TLS certificate verification enabled. Test accounts, transactions and uploaded fixtures were removed afterward. The upload directory grants the PHP service access through a filesystem ACL.
 
-Public DNS for `ubaya.fun` currently returns NXDOMAIN. Ordinary app connections require the course domain to resolve again, or a replacement working HTTPS hostname. The steps below describe setup for a fresh deployment.
+The backend also responds correctly through the `ubaya.cloud` HTTPS virtual host, verified with an explicit origin-IP connection and certificate validation. On this development machine, ordinary DNS lookup for `ubaya.cloud` still fails; normal app connectivity requires that hostname to resolve. The steps below describe setup for a fresh deployment.
 
 1. Import `backend/schema.sql` into the existing student MySQL database. It uses InnoDB and creates its tables without dropping existing data.
-2. The observed course nginx configuration maps `/var/www/html/flutter/160423172` to `/flutter/160423172/`. Upload `api.php`, `core.php`, `uploadimage.php`, `image.php` and the `images/` directory from `backend/` into the web directory served at `https://ubaya.fun/flutter/160423172`. Keep the SQL script, configuration example and local router on your development machine. The supplied `.htaccess` files add download restrictions on Apache hosting.
+2. The observed course nginx configuration maps `/var/www/html/flutter/160423172` to `/flutter/160423172/`. Upload `api.php`, `core.php`, `uploadimage.php`, `image.php` and the `images/` directory from `backend/` into the web directory served at `https://ubaya.cloud/flutter/160423172`. Keep the SQL script, configuration example and local router on your development machine. The supplied `.htaccess` files add download restrictions on Apache hosting.
 3. Copy `config.example.php` to `config.php` on the server. Fill in the actual database name, username and password. Choose the course timezone if it differs from Asia/Jakarta.
 4. Enable PHP PDO MySQL and GD. Allow at least 12 MB POST bodies and a writable `images/` directory owned by the PHP user. GD normalizes accepted JPG/PNG uploads to actual PNG files. Uploaded files use `images/[user_id]/[timestamp]_[random].png`.
 5. Serve PHP over HTTPS. Product and check-in images use `image.php`, which supplies CORS headers on nginx and Apache. `config.php` returns its configuration to PHP without printing it.

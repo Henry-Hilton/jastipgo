@@ -57,7 +57,7 @@ class Session extends ChangeNotifier {
           baseUrl ??
           const String.fromEnvironment(
             'API_BASE_URL',
-            defaultValue: 'https://ubaya.fun/flutter/160423172',
+            defaultValue: 'https://ubaya.cloud/flutter/160423172',
           ),
       _client = client ?? http.Client();
   final String baseUrl;
